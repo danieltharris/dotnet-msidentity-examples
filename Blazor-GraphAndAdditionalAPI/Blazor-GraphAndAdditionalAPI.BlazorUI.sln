@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor-GraphAndAdditionalAPI.BlazorUI", "Blazor-GraphAndAdditionalAPI.BlazorUI\Blazor-GraphAndAdditionalAPI.BlazorUI.csproj", "{B0E44724-A782-4056-8DFD-9E04181AE774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor-GraphAndAdditionalAPI.Downstream", "Blazor-GraphAmdAdditionalAPI.Downstream\Blazor-GraphAndAdditionalAPI.Downstream.csproj", "{6477E662-DF73-486B-AE49-2CF64CD6A9FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0E44724-A782-4056-8DFD-9E04181AE774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E44724-A782-4056-8DFD-9E04181AE774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E44724-A782-4056-8DFD-9E04181AE774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E44724-A782-4056-8DFD-9E04181AE774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6477E662-DF73-486B-AE49-2CF64CD6A9FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6477E662-DF73-486B-AE49-2CF64CD6A9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6477E662-DF73-486B-AE49-2CF64CD6A9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6477E662-DF73-486B-AE49-2CF64CD6A9FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20EC1BFB-8B35-4F7E-A85D-24AAF8364E15}
+	EndGlobalSection
+EndGlobal

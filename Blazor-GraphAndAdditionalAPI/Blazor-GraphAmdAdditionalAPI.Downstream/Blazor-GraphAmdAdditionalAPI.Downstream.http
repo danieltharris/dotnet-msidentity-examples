@@ -1,0 +1,6 @@
+@Blazor_GraphAmdAdditionalAPI.Downstream_HostAddress = http://localhost:5234
+
+GET {{Blazor_GraphAmdAdditionalAPI.Downstream_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

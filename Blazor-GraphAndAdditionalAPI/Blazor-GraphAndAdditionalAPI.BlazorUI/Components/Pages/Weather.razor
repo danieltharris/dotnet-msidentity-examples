@@ -1,0 +1,104 @@
+﻿@page "/weather"
+@using Microsoft.Graph.Models
+@attribute [Authorize]
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Basic User Profile Info from Graph</h1>
+
+@if (graphUser == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>The following information was retrieved from Graph</p>
+    <ul>
+        <li>First Name: @graphUser.GivenName</li>
+        <li>Surname: @graphUser.Surname</li>
+        <li>Email: @graphUser.Mail</li>
+    </ul>
+}
+
+<h1>Weather From API via Authenticated Call to Downstream API</h1>
+
+<p>This component originally simulated loading data. We have updated it to query the data from a downstream API that requires authentication</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [Inject] ITokenAcquisition? TokenAcquirer { get; set; }
+    [Inject] IConfiguration? Configuration { get; set; }
+    [Inject] Microsoft.Graph.GraphServiceClient? GraphServiceClient { get; set; }
+    [Inject] MicrosoftIdentityConsentAndConditionalAccessHandler? ConsentHandler { get; set; }
+
+
+    private WeatherForecast[]? forecasts;
+    private User? graphUser;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            graphUser = await GraphServiceClient!.Me.GetAsync();
+        }
+        catch (Exception ex)
+        {
+            ConsentHandler!.HandleException(ex);
+        }
+
+        try
+        {
+            var token = await TokenAcquirer!.GetAccessTokenForUserAsync(new string[] { Configuration!["DownstreamApi:Scope"]! });
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(Configuration!["DownstreamApi:BaseUri"]!);
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", token);
+            var response = await httpClient.GetAsync("/weatherforecast");
+            response.EnsureSuccessStatusCode();
+            
+            forecasts = await response.Content.ReadFromJsonAsync<WeatherForecast[]>();
+
+        }
+        catch (Exception ex)
+        {
+            ConsentHandler!.HandleException(ex);
+        }
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}
